@@ -9,17 +9,58 @@ const pool = require('../config/database');
 // Pour une solution robuste, voir Option 2 ou utilisez un trigger/sequence PostgreSQL.
 const generateCodePv = async () => {
   try {
+    let attempt = 1;
+    const MAX_ATTEMPTS = 20; // Limite pour éviter une boucle infinie
+    let newCode;
+    let codeExists = true;
     // Récupérer le dernier code_pv inséré
-    const result = await pool.query('SELECT code_pv FROM t_points_vente ORDER BY code_pv DESC LIMIT 1');
-    const lastCode = result.rows[0]?.code_pv || 'PV000000'; // Valeur par défaut si aucune ligne n'existe
-    const lastNumber = parseInt(lastCode.substring(2)); // Extrait le numéro (000)
-    const newNumber = (lastNumber + 1).toString().padStart(6, '0'); // Incrémente et formate (001)
-    return `PV${newNumber}`;
+      const result = await pool.query('SELECT code_pv FROM t_points_vente ORDER BY code_pv DESC LIMIT 1');
+      let lastCode = result.rows[0]?.code_pv || 'PV000000'; // Valeur par défaut si aucune ligne n'existe
+      // Extrait le numéro 
+      let lastNumber = parseInt(lastCode.substring(2)); 
+
+    while (codeExists && attempt < MAX_ATTEMPTS) {
+      
+      
+      // Extrait le numéro de base
+      let baseNumber = parseInt(lastCode.substring(2));
+      
+      // Génère un nouveau code unique en ajoutant un nombre aléatoire
+      //const newNumber = (baseNumber + Math.floor(Math.random() * 1000)).toString().padStart(6, '0');
+      let newNumber = baseNumber + 1;
+      newNumber = newNumber.toString().padStart(6, '0');
+      newCode = `PV${newNumber}`;
+
+      // Vérifier si le code existe déjà
+      const checkResult = await pool.query(
+        'SELECT COUNT(*) AS count FROM t_points_vente WHERE code_pv = $1', 
+        [newCode]
+      );
+
+      lastCode = newCode
+      // Mettre à jour le statut d'existence du code
+      codeExists = checkResult.rows[0].count > 0;
+
+      // Ajouter une limite de sécurité pour éviter une boucle infinie
+      if (codeExists) {
+        console.log(`Code ${newCode} existe déjà, nouvelle tentative...`);
+      }else{
+        return newCode
+      }
+      attempt++;
+    }
+
+    
+
+    // Si on dépasse le nombre maximum de tentatives
+    throw new Error('Impossible de générer un code unique après ' + MAX_ATTEMPTS + ' tentatives');
   } catch (error) {
     console.error('Erreur lors de la génération du code_pv:', error);
     throw error;
   }
 };
+
+
 
 const getPharmacies = async (page, limit, searchQuery) => {
   const offset = (page - 1) * limit;
