@@ -4,6 +4,8 @@ import { Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/Home'
 import AdminPage from './pages/AdminPage'
 import PharmacieListePage from './pages/PharmacieListePage'
+import PointOfSaleDetailPage from './pages/PointOfSaleDetailPage'
+
 
 function App() {
   const [navbarOpen, setNavbarOpen] = useState(false)
@@ -360,6 +362,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/pharmacies" element={<PharmacieListePage />} />
+          <Route path="/pos/:id" element={<PointOfSaleDetailPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>
