@@ -1,0 +1,68 @@
+{
+    "success": true,
+    "nb_points_vente": 8,
+    "points_vente": [
+        {
+            "code_pv": "PV001",
+            "nom_pv": "Pharmacie Centrale",
+            "tel_pv": "90000001",
+            "adre_pv": "Avenue de la Santé, Niamey",
+            "latitude": 13.5116,
+            "longitude": 2.1254,
+            "total_pv": 89500,
+            "nb_produits_trouves": 3,
+            "date_maj_stock": "2025-10-09T17:56:37.232Z",
+            "est_en_garde": false,
+            "produits": [
+                {
+                    "code_prdt": "PROD001-api",
+                    "des_prdt": "Paracétamol 500mg",
+                    "quantite_demandee": 10,
+                    "stock_dispo": 120,
+                    "prix_unitaire": 350,
+                    "montant_produit": 3500,
+                    "score_pertinence": 0.666667,
+                    "type_resultat": "exact"
+                },
+                {
+                    "code_prdt": "PRD001",
+                    "des_prdt": "Paracétamol 500mg",
+                    "quantite_demandee": 10,
+                    "stock_dispo": 100,
+                    "prix_unitaire": 100,
+                    "montant_produit": 1000,
+                    "score_pertinence": 0.666667,
+                    "type_resultat": "exact"
+                }
+            ]
+        },
+        {
+            "code_pv": "PV003",
+            "nom_pv": "Pharmacie Horizon",
+            "tel_pv": "90000003",
+            "adre_pv": "Quartier Plateau, Zinder",
+            "latitude": 13.8082,
+            "longitude": 8.9886,
+            "total_pv": 1950,
+            "nb_produits_trouves": 2,
+            "date_maj_stock": "2025-10-09T17:56:37.232Z",
+            "est_en_garde": false,
+            "produits": [
+                {
+                    "code_prdt": "PRD009",
+                    "des_prdt": "Ibuprofène 200mg",
+                    "quantite_demandee": 5,
+                    "stock_dispo": 40,
+                    "prix_unitaire": 210,
+                    "montant_produit": 1050,
+                    "score_pertinence": 0.647059,
+                    "type_resultat": "exact"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "nb_produits_demandes": 2,
+        "timestamp": "2025-10-17T13:01:35.669Z"
+    }
+}

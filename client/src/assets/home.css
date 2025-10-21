@@ -1,0 +1,232 @@
+/* home.css */
+/* Couleurs principales */
+:root {
+  --onepharma-primary: #1E88E5;
+  --onepharma-primary-light: #E3F2FD;
+  --onepharma-accent: #FF9800;
+  --onepharma-error: #EF5350;
+  --onepharma-success: #4CAF50;
+  --onepharma-text-primary: #333333;
+  --onepharma-text-secondary: #666666;
+  --onepharma-background: #F5F5F5;
+  --onepharma-card-bg: #FFFFFF;
+  --onepharma-divider: #E0E0E0;
+  --onepharma-input-bg: #F5F5F5;
+  --onepharma-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  --onepharma-shadow-medium: 0 4px 8px rgba(0,0,0,0.15);
+  --onepharma-shadow-large: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* Conteneur principal */
+.container-onepharma {
+  background-color: var(--onepharma-primary-light);
+  min-height: 100vh;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* Titre principal */
+.title-onepharma {
+  color: var(--onepharma-primary);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.title-onepharma .icon {
+  color: var(--onepharma-primary);
+  font-size: 1.8rem;
+}
+
+/* Carte de formulaire */
+.form-card-onepharma {
+  background-color: var(--onepharma-card-bg);
+  border-radius: 12px;
+  box-shadow: var(--onepharma-shadow-medium);
+  padding: 24px;
+  margin-bottom: 24px;
+  border: none;
+}
+
+/* Boutons */
+.btn-onepharma-primary {
+  background-color: var(--onepharma-primary);
+  border-color: var(--onepharma-primary);
+  color: white;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-onepharma-primary:hover,
+.btn-onepharma-primary:focus {
+  background-color: #1976D2; /* Bleu plus foncé */
+  border-color: #1976D2;
+}
+
+.btn-onepharma-outline {
+  background-color: transparent;
+  border-color: var(--onepharma-primary);
+  color: var(--onepharma-primary);
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-onepharma-outline:hover,
+.btn-onepharma-outline:focus {
+  background-color: rgba(30, 136, 229, 0.1); /* Léger fond bleu */
+}
+
+.btn-onepharma-danger {
+  background-color: transparent;
+  border-color: var(--onepharma-error);
+  color: var(--onepharma-error);
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-onepharma-danger:hover,
+.btn-onepharma-danger:focus {
+  background-color: rgba(239, 83, 80, 0.1); /* Léger fond rouge */
+}
+
+/* Input de produit */
+.product-input-card {
+  background-color: var(--onepharma-card-bg);
+  border-radius: 12px;
+  box-shadow: var(--onepharma-shadow);
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--onepharma-divider);
+}
+
+.product-input-card .card-header {
+  background-color: rgba(30, 136, 229, 0.05); /* Léger fond bleu */
+  border-bottom: 1px solid var(--onepharma-divider);
+  padding: 12px 16px;
+  border-radius: 12px 12px 0 0 !important; /* Pour la carte */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-input-card .card-body {
+  padding: 16px;
+}
+
+/* Champs de formulaire */
+.form-control-onepharma {
+  background-color: var(--onepharma-input-bg);
+  border: 1px solid var(--onepharma-divider);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--onepharma-text-primary);
+}
+
+.form-control-onepharma:focus {
+  border-color: var(--onepharma-primary);
+  box-shadow: 0 0 0 0.25rem rgba(30, 136, 229, 0.25); /* Focus Bootstrap */
+  background-color: white; /* Fond blanc au focus */
+}
+
+/* Bouton supprimer dans le champ produit */
+.btn-remove-product {
+  color: var(--onepharma-error);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.btn-remove-product:hover {
+  background-color: rgba(239, 83, 80, 0.1);
+}
+
+/* Message d'erreur */
+.alert-onepharma-danger {
+  background-color: #ffebee; /* Fond rouge clair */
+  color: var(--onepharma-error);
+  border-color: #ffcdd2;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+/* Titre des résultats */
+.results-title-onepharma {
+  color: var(--onepharma-text-primary);
+  font-weight: bold;
+  margin-bottom: 16px;
+  padding-left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Grille des résultats */
+.results-grid-onepharma {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 colonne par défaut */
+  gap: 16px;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) { /* Tablettes */
+  .results-grid-onepharma {
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+  }
+}
+
+@media (min-width: 992px) { /* Desktops */
+  .results-grid-onepharma {
+    grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
+  }
+}
+
+/* Section d'aide */
+.help-section-onepharma {
+  background-color: var(--onepharma-background);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 32px;
+  border-left: 4px solid var(--onepharma-primary);
+}
+
+.help-section-onepharma h5 {
+  color: var(--onepharma-primary);
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.help-section-onepharma ul {
+  padding-left: 20px;
+}
+
+.help-section-onepharma li {
+  margin-bottom: 4px;
+}
+
+.help-section-onepharma code {
+  background-color: var(--onepharma-input-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}

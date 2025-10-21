@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import api from '../utils/api'
 import ProductInput from '../components/ProductInput'
 import SearchResultCard from '../components/SearchResultCard'
+import '../assets/home.css' // Importez votre fichier CSS personnalisé
 
 
 // ===========================================================
@@ -123,87 +124,188 @@ const handleUpdateResult = (posId, updatedProducts) => {
   );
 }
 
-  // 🔹 Fonction pour vider la recherche
+  // 🔹 Fonction pour vider la recherche (et revenir à la page de recherche avec une liste vide)
   const handleClearSearch = () => {
-    setProducts([{ name: '', quantity: 1 }])
+    setProducts([{ name: '', quantity: 1 }]) // Réinitialise la liste à un champ vide
     setResults([])
-    sessionStorage.removeItem('searchProducts')
+    sessionStorage.removeItem('searchProducts') // Supprime les anciens produits sauvegardés
     sessionStorage.removeItem('searchResults')
   }
 
-  return (
-    <div className="container py-4">
-      <h1 className="text-center mb-4 h2">Rechercher des produits</h1>
+  // 🔹 Fonction pour revenir à la page de recherche avec les produits actuels
+  const handleGoBackToForm = () => {
+    // Ne vide pas `products`, ne vide que `results`
+    setResults([]); // Cela déclenchera le rendu du bloc du formulaire
+    // `products` reste inchangé, donc le formulaire affichera les produits précédents
+    // `searchResults` est supprimé du sessionStorage, mais `searchProducts` reste
+    sessionStorage.removeItem('searchResults');
+  }
 
-      <div className="card p-4 mb-5">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            {products.map((product, index) => (
-              <ProductInput
-                key={index}
-                product={product}
-                index={index}
-                onFieldChange={updateProduct}
-                onRemove={removeProduct}
-                showRemove={products.length > 1}
-              />
-            ))}
-          </div>
-          <div className="d-flex flex-wrap gap-2 mb-3">
+
+  // Si des résultats existent, afficher uniquement les résultats et les boutons "Retour" et "Nouvelle recherche"
+  if (results.length > 0) {
+    return (
+      <div className="container-onepharma">
+        <div className="d-flex justify-content-between align-items-center mb-3 px-3">
+          <h1 className="title-onepharma mb-0"> {/* Utilisez la classe personnalisée */}
+            <span className="icon">📊</span> {/* Icône pour les résultats */}
+            Résultats ({results.length} point{results.length > 1 ? 's' : ''} de vente)
+          </h1>
+          <div className="d-flex gap-2"> {/* Conteneur pour les deux boutons */}
             <button
               type="button"
-              className="btn btn-outline-secondary"
-              onClick={addProduct}
+              className="btn btn-onepharma-outline" // Utilisez une classe secondaire pour le bouton Retour
+              onClick={handleGoBackToForm} // Appelle la nouvelle fonction
             >
-              + Ajouter un produit
+              Retour
             </button>
             <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={loading}
+              type="button"
+              className="btn btn-onepharma-danger" // Utilisez la classe personnalisée
+              onClick={handleClearSearch} // Conserve la fonctionnalité de nettoyage complet
             >
-              {loading ? 'Recherche...' : 'Rechercher'}
+              Nouvelle recherche
             </button>
-            {results.length > 0 && (
-              <button
-                type="button"
-                className="btn btn-outline-danger"
-                onClick={handleClearSearch}
-              >
-                Nouvelle recherche
-              </button>
-            )}
           </div>
-          {error && <div className="alert alert-danger">{error}</div>}
-        </form>
-      </div>
+        </div>
 
-      {results.length > 0 && (
-        <>
-          <h2 className="mb-3">Résultats ({results.length} points de vente)</h2>
-          <div className="row g-4">
-            {results.map((pos) => (
-              <div className="col-12 col-md-6 col-lg-4" key={pos.id}>
-                <SearchResultCard pos={pos}
-                onUpdate={handleUpdateResult}
-                 />
+        <div className="results-grid-onepharma"> {/* Utilisez la classe personnalisée */}
+          {results.map((pos) => (
+            <SearchResultCard
+              key={pos.id}
+              pos={pos}
+              onUpdate={handleUpdateResult}
+            />
+          ))}
+        </div>
+
+        {/* La section d'aide n'est pas affichée ici */}
+      </div>
+    );
+  }
+
+  // Sinon, afficher le formulaire de recherche
+  return (
+    <div className="container-onepharma"> {/* Utilisez la classe personnalisée */}
+      <h1 className="title-onepharma"> {/* Utilisez la classe personnalisée */}
+        <span className="icon">🔍</span> {/* Remplacez par un vrai icône SVG ou Font Awesome si vous préférez */}
+        Rechercher des produits
+      </h1>
+
+      <div className="form-card-onepharma"> {/* Utilisez la classe personnalisée */}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-0"> {/* Supprimez mb-3, géré par le style de la carte */}
+            {products.map((product, index) => (
+              <div key={index} className="product-input-card"> {/* Carte pour chaque produit */}
+                <div className="card-header">
+                  <div className="d-flex align-items-center">
+                    <div className="me-2" style={{ width: '28px', height: '28px', borderRadius: '4px', backgroundColor: '#1E88E5', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>
+                      {index + 1}
+                    </div>
+                    <span style={{ color: '#1E88E5', fontWeight: '500' }}>Produit</span>
+                  </div>
+                  {products.length > 1 && (
+                    <button
+                      type="button"
+                      className="btn-remove-product"
+                      onClick={() => removeProduct(index)}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+                <div className="card-body">
+                  <div className="mb-3">
+                    <label htmlFor={`productName-${index}`} className="form-label" style={{ color: '#666666', fontWeight: '500', fontSize: '0.85rem' }}>
+                      <span style={{ verticalAlign: 'middle' }}>💊</span> Nom du médicament
+                    </label>
+                    <input
+                      type="text"
+                      id={`productName-${index}`}
+                      className="form-control form-control-onepharma" // Utilisez la classe personnalisée
+                      placeholder="Ex: Paracétamol 500mg"
+                      value={product.name}
+                      onChange={(e) => updateProduct(index, 'name', e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-0">
+                    <label className="form-label" style={{ color: '#666666', fontWeight: '500', fontSize: '0.85rem' }}>
+                      <span style={{ verticalAlign: 'middle' }}>🛒</span> Quantité
+                    </label>
+                    <div className="d-flex align-items-center">
+                      <button
+                        type="button"
+                        className="btn btn-outline-secondary"
+                        onClick={() => updateProduct(index, 'quantity', Math.max(1, product.quantity - 1))}
+                        disabled={product.quantity <= 1}
+                        style={{ padding: '8px 12px', borderRadius: '8px', borderColor: '#DDDDDD', color: '#EF5350' }}
+                      >
+                        −
+                      </button>
+                      <input
+                        type="number"
+                        className="form-control form-control-onepharma mx-2" // Utilisez la classe personnalisée
+                        value={product.quantity}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value) || 1;
+                          updateProduct(index, 'quantity', Math.max(1, val));
+                        }}
+                        min="1"
+                        style={{ maxWidth: '80px', textAlign: 'center' }}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-outline-secondary"
+                        onClick={() => updateProduct(index, 'quantity', product.quantity + 1)}
+                        style={{ padding: '8px 12px', borderRadius: '8px', borderColor: '#DDDDDD', color: '#1E88E5' }}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-        </>
-      )}
+          <div className="d-flex flex-wrap gap-2 mt-3">
+            <button
+              type="button"
+              className="btn btn-onepharma-outline" // Utilisez la classe personnalisée
+              onClick={addProduct}
+            >
+              <span>+</span> Ajouter un produit
+            </button>
+            <button
+              type="submit"
+              className="btn btn-onepharma-primary" // Utilisez la classe personnalisée
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Recherche...
+                </>
+              ) : (
+                'Rechercher'
+              )}
+            </button>
+            {/* Le bouton "Nouvelle recherche" est maintenant affiché dans le bloc des résultats */}
+          </div>
+          {error && <div className="alert alert-onepharma-danger mt-3">{error}</div>} {/* Utilisez la classe personnalisée */}
+        </form>
+      </div>
 
-      {/* Section d'aide pour tester */}
-        <div className="mt-5 p-3 bg-light rounded">
-            <h5>💊 Exemples de médicaments à tester :</h5>
-            <ul className="mb-0">
-                <li><code>Paracetamol</code> </li>
-                <li><code>Ibuprofene</code> </li>
-                <li><code>Amoxicilline</code> </li>
-                <li><code>Omeprazole</code> </li>
-                <li><code>Artemether</code> </li>
-            </ul>
-        </div>  
+      {/* Section d'aide pour tester - Affichée uniquement sur la page de recherche */}
+      <div className="help-section-onepharma"> {/* Utilisez la classe personnalisée */}
+        <h5>💊 Exemples de médicaments à tester :</h5>
+        <ul className="mb-0">
+          <li><code>Paracetamol</code></li>
+          <li><code>Ibuprofene</code></li>
+          <li><code>Amoxicilline</code></li>
+          <li><code>Omeprazole</code></li>
+          <li><code>Artemether</code></li>
+        </ul>
+      </div>
     </div>
   )
 }
